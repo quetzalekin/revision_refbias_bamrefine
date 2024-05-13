@@ -1,0 +1,18 @@
+##simulating more damage
+export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
+perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.36,0.01455,0.825 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_moredamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+
+##simulating less damage
+export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
+perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.36,0.00485,0.275 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_lessdamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+
+###
+ cd /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations
+echo '### Chromosome 1 of single stranded library examplesMapDamage/results_Ust_Ishim/misincorporation.txt' > /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/misinc.txt
+head -n 4 /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt >> /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/misinc.txt
+awk  '{ if ($1 == 1) { print } }' /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt >> /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/misinc.txt
+
+  
+##halfudg 
+export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
+perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.8,0.0,0.55 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_halfudg /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
