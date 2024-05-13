@@ -12,6 +12,22 @@ echo '### Chromosome 1 of single stranded library examplesMapDamage/results_Ust_
 head -n 4 /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt >> /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/misinc.txt
 awk  '{ if ($1 == 1) { print } }' /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt >> /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/misinc.txt
 
+export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
+
+perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -mapdamage /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt single -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_single /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+
+
+##Initial Alignment
+mkdir initial_alignment
+cd /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations
+/usr/local/sw/bwa-0.7.15/bwa aln -l 16500 -n 0.01 -o 2 /mnt/NEOGENE3/share/ref/genomes/hsa/chr/hs37d5.chr1.fa  cov10_lessdamage_s1.fq.gz > initial_alignment/cov10_lessdamage_s1.sai
+/usr/local/sw/bwa-0.7.15/bwa aln -l 16500 -n 0.01 -o 2 /mnt/NEOGENE3/share/ref/genomes/hsa/chr/hs37d5.chr1.fa  cov10_lessdamage_s2.fq.gz > initial_alignment/cov10_lessdamage_s2.sai
+
+mkdir mapped
+
+/usr/local/sw/bwa-0.7.15/bwa sampe /mnt/NEOGENE3/share/ref/genomes/hsa/chr/hs37d5.chr1.fa initial_alignment/cov10_lessdamage_s1.sai initial_alignment/cov10_lessdamage_s1.sai  cov10_lessdamage_s1.fq.gz  cov10_lessdamage_s2.fq.gz >  mapped/cov10_lessdamage.sam
+
+
   
 ##halfudg 
 export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
