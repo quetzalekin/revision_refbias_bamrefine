@@ -1,18 +1,27 @@
 ##simulating more damage
 export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
-perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.36,0.01455,0.825 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_moredamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.36,0.01455,0.825 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_moredamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
 
 ##simulating less damage
 export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
-perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.36,0.00485,0.275 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_lessdamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.36,0.00485,0.275 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_lessdamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
 
-###
- cd /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations
-
-export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
-perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -mapdamage /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt single -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_single /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
-
-  
 ##halfudg 
 export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
-perl /usr/local/sw/gargammel/gargammel.pl -c 5.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.8,0.0,0.55 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_halfudg /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -damage 0.024,0.8,0.0,0.55 -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_halfudg /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+
+###single
+#create misincorporation.txt
+
+sample="$( cut -d "_" -f1 <<< /mnt/NEOGENE3/share/greek_rawdata/hsa/mappedlibraries/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam
+ )"; samplename=${sample##*/}; echo "$samplename"
+
+###Add read group to bam
+java -jar /usr/local/sw/picard/build/libs/picard.jar AddOrReplaceReadGroups I=/mnt/NEOGENE3/share/greek_rawdata/hsa/mappedlibraries/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam O=31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.bam SORT_ORDER=coordinate RGID=foo RGLB=bar RGPU=foo RGPL=illumina RGSM=${samplename} CREATE_INDEX=True
+
+mapDamage -i 31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.bam -r /mnt/NEOGENE3/share/ref/genomes/hsa/hs37d5.fa
+
+export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
+perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -mapdamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.mapDamage/misincorporation.txt single -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_single /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+
+  
