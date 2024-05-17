@@ -12,16 +12,26 @@ perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/
 
 ###single
 #create misincorporation.txt
+samtools view -b /mnt/NEOGENE3/share/greek_rawdata/hsa/mappedlibraries/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam -o chr1_31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam 
 
-sample="$( cut -d "_" -f1 <<< /mnt/NEOGENE3/share/greek_rawdata/hsa/mappedlibraries/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam
+sample="$( cut -d "_" -f1 <<< /mnt/NEOGENE3/share/greek_rawdata/hsa/mappedlibraries/chr1_31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam
  )"; samplename=${sample##*/}; echo "$samplename"
 
 ###Add read group to bam
-java -jar /usr/local/sw/picard/build/libs/picard.jar AddOrReplaceReadGroups I=/mnt/NEOGENE3/share/greek_rawdata/hsa/mappedlibraries/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam O=31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.bam SORT_ORDER=coordinate RGID=foo RGLB=bar RGPU=foo RGPL=illumina RGSM=${samplename} CREATE_INDEX=True
+java -jar /usr/local/sw/picard/build/libs/picard.jar AddOrReplaceReadGroups I=chr1_31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.bam O=chr1_31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.bam SORT_ORDER=coordinate RGID=foo RGLB=bar RGPU=foo RGPL=illumina RGSM=${samplename} CREATE_INDEX=True
 
-mapDamage -i 31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.bam -r /mnt/NEOGENE3/share/ref/genomes/hsa/hs37d5.fa
+mapDamage -i chr1_31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.bam -r /mnt/NEOGENE3/share/ref/genomes/hsa/hs37d5.fa
+cut -f 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 chr1_31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.mapDamage/misincorporation.txt > misinc.txt
+sed -i 's/Library/Chr/g' misinc.txt
+sed -i 's/bar/1/g' misinc.txt
+
+head -n3 /usr/local/sw/gargammel/examplesMapDamage/results_Ust_Ishim/misincorporation.txt > misinc2.txt
+
+cat misinc.txt >> misinc2.txt
+
+
 
 export PERL5LIB=/usr/local/sw/vcftools-0.1.16/src/perl/
-perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -mapdamage /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/31_6_SS_Endo_2.55_L1.all.hs37d5.cons.90perc.rg.mapDamage/misincorporation.txt single -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_single /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
+perl /usr/local/sw/gargammel/gargammel.pl -c 10.5 --comp 0,0,1 -s /mnt/NEOGENE1/projects/refbias_2020/gargamel/sizedist.size_1.gz -mapdamage misinc2.txt single -o /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/revision_simulations/cov10_single /mnt/NEOGENE1/projects/refbias_2020/gargamel/chr1/data/
 
   
