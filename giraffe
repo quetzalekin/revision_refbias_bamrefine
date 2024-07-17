@@ -1,0 +1,23 @@
+cat > vg_construct.sh <<EOF
+#!/bin/bash -l
+#SBATCH -p gorilla
+#SBATCH -n 40
+#SBATCH -t 5-00:00:00
+#SBATCH -J vg_construct
+#SBATCH -o slurm-%j-%N-%u.out
+#SBATCH -e slurm-%J-%N-%u.err
+
+/usr/local/sw/vg/bin/vg construct -r /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.fa -v /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.vcf.gz > /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.vg 
+EOF
+
+# Index
+vg index -x graph.xg -g graph.gcsa graph.vg 
+
+# Map
+vg map -f reads.fq -g graph.gcsa -x reads.xg > mapped.gam
+
+# Pileup/Augment
+vg augment -a pileup -Z samp.trans -S samp.support graph.vg mapped.gam > samp.aug.vg 
+
+# Call
+vg call -z samp.trans -s samp.support samp.aug.vg > calls.vcf 
