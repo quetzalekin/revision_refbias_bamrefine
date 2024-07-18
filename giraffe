@@ -1,3 +1,4 @@
+# Construct
 cat > vg_construct.sh <<EOF
 #!/bin/bash -l
 #SBATCH -p gorilla
@@ -11,7 +12,27 @@ cat > vg_construct.sh <<EOF
 EOF
 
 # Index
-vg index -x graph.xg -g graph.gcsa graph.vg 
+
+cat > vg_index.sh <<EOF
+#!/bin/bash -l
+#SBATCH -p gorilla
+#SBATCH -n 80
+#SBATCH -t 5-00:00:00
+#SBATCH -J vg_index
+#SBATCH -o slurm-%j-%N-%u.out
+#SBATCH -e slurm-%J-%N-%u.err
+
+/usr/local/sw/vg/bin/vg index -x /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.xg -g /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.gcsa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.vg 
+
+EOF
+
+
+
+
+
+
+
+
 
 # Map
 vg map -f reads.fq -g graph.gcsa -x reads.xg > mapped.gam
