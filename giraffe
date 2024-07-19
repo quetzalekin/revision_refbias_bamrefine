@@ -1,29 +1,33 @@
+##get chr1 of graph genome
+samtools faidx /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.fa 1 > /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa
+
+/usr/local/sw/vcftools-0.1.16/bin/vcftools --gzvcf /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.vcf.gz --chr 1 --recode --out /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1
+
 # Construct
 cat > vg_construct.sh <<EOF
 #!/bin/bash -l
-#SBATCH -p gorilla
+#SBATCH -p chimp
 #SBATCH -n 40
 #SBATCH -t 5-00:00:00
 #SBATCH -J vg_construct
 #SBATCH -o slurm-%j-%N-%u.out
 #SBATCH -e slurm-%J-%N-%u.err
 
-/usr/local/sw/vg/bin/vg construct -r /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.fa -v /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.vcf.gz > /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.vg 
+/usr/local/sw/vg/bin/vg construct -r/mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa -v /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.recode.vcf > /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.vg 
 EOF
 
 # Index
 
 cat > vg_index.sh <<EOF
 #!/bin/bash -l
-#SBATCH -p gorilla
-#SBATCH -n 80
+#SBATCH -p chimp
+#SBATCH -n 40
 #SBATCH -t 5-00:00:00
 #SBATCH -J vg_index
 #SBATCH -o slurm-%j-%N-%u.out
 #SBATCH -e slurm-%J-%N-%u.err
 
-/usr/local/sw/vg/bin/vg index -x /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.xg -g /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.gcsa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.vg 
-
+/usr/local/sw/vg/bin/vg index -x /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.xg -g /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.gcsa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.vg 
 EOF
 
 
