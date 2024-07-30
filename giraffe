@@ -44,37 +44,31 @@ cat > vg_index.sh <<EOF
 /usr/local/sw/vg/bin/vg index -x /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.xg -g /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.gcsa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.vg
 EOF
 
-#Map
-
-cat > vg_map.sh <<EOF
+#Autoindex
+cat > vg_autoindex.sh <<EOF
 #!/bin/bash -l
-#SBATCH -p gorilla
-#SBATCH -n 80
+#SBATCH -p chimp
+#SBATCH -n 15
 #SBATCH -t 5-00:00:00
-#SBATCH -J vg_index
+#SBATCH -J vg_autoindex
 #SBATCH -o slurm-%j-%N-%u.out
 #SBATCH -e slurm-%J-%N-%u.err
 
-/usr/local/sw/vg/bin/vg map -f XXX -s /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.vg -d XXX -t XXX --surject-to bam -k 15 -w 1024 -i | samtools view -F 4 -h -Su - | samtools sort - -@ ${cores} -o ${bn}.gr.maf05.bam
+/usr/local/sw/vg/bin/vg autoindex --workflow giraffe -r /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.recode.vcf -p /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome
 EOF
 
+##############################
+#Map
 
-${vg} map -f ${indir}/${fastq} -s ${grdir}/${filebase}.vg -d ${grdir}/${filebase} -t ${core} --surject-to bam -k 15 -w 1024 -i | samtools view -F 4 -h -Su - | samtools sort - -@ ${cores} -o ${bn}.gr.maf05.bam
+cat > vg_gir5.sh <<EOF
+#!/bin/bash -l
+#SBATCH -p chimp
+#SBATCH -n 20
+#SBATCH -t 5-00:00:00
+#SBATCH -J vg_map5
+#SBATCH -o slurm-%j-%N-%u.out
+#SBATCH -e slurm-%J-%N-%u.err
 
-#${vg} map -f ${indir}/${fastq} -s ${grdir}/${filebase}.vg -d ${grdir}/${filebase} -t ${core} --surject-to bam -k 15 -w 1024 -i >${bn}.gr.maf05.bam
+/usr/local/sw/vg/bin/vg giraffe -Z /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome.giraffe.gbz -m /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome.min -d /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome.dist -f /mnt/NEOGENE1/projects/refbias_2020/mapping/gargamel/diffcov2/fastq/cov10_sim5.all.fastq.gz -o BAM > /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams/cov10_sim5.all.gr.bam
+EOF
 
-${vg} giraffe -Z ${ref}.giraffe.gbz -m ${ref}.min -d ${ref}.dist -t ${cores} -f ${indir}/${fastq} -o BAM>${bn}.maf${fit}.gr.bam
-
-
-
-
-
-
-# Map
-vg map -f reads.fq -g graph.gcsa -x reads.xg > mapped.gam
-
-# Pileup/Augment
-vg augment -a pileup -Z samp.trans -S samp.support graph.vg mapped.gam > samp.aug.vg 
-
-# Call
-vg call -z samp.trans -s samp.support samp.aug.vg > calls.vcf 
