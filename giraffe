@@ -3,7 +3,7 @@ samtools faidx /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7
 
 /usr/local/sw/vcftools-0.1.16/bin/vcftools --gzvcf /mnt/NEOGENE1/projects/refbias_2020/graph_genome/SBG.Graph.B37.V7.dev2.vcf.gz --chr 1 --recode --out /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1
 
-# Construct
+# Construct ##didnt use this part
 cat > vg_construct.sh <<EOF
 #!/bin/bash -l
 #SBATCH -p chimp
@@ -16,7 +16,7 @@ cat > vg_construct.sh <<EOF
 /usr/local/sw/vg/bin/vg construct -r/mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa -v /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.recode.vcf > /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.vg 
 EOF
 
-##prune
+##prune ##didnt use this part
 
 cat > vg_prune.sh <<EOF
 #!/bin/bash -l
@@ -30,7 +30,7 @@ cat > vg_prune.sh <<EOF
 /usr/local/sw/vg/bin/vg prune /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.vg > /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.vg
 EOF
 
-# Index
+# Index ##didnt use this part
 
 cat > vg_index.sh <<EOF
 #!/bin/bash -l
@@ -44,6 +44,8 @@ cat > vg_index.sh <<EOF
 /usr/local/sw/vg/bin/vg index -x /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.xg -g /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.gcsa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pruned.vg
 EOF
 
+
+##############################
 #Autoindex
 cat > vg_autoindex.sh <<EOF
 #!/bin/bash -l
@@ -57,7 +59,6 @@ cat > vg_autoindex.sh <<EOF
 /usr/local/sw/vg/bin/vg autoindex --workflow giraffe -r /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.recode.vcf -p /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome
 EOF
 
-##############################
 #Map
 
 cat > vg_gir5.sh <<EOF
