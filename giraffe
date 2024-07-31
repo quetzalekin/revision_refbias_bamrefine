@@ -78,5 +78,5 @@ change the genome to SBG.Graph.B37.V7.dev2.chr1.fa in seqstats.new.SG.slurm
 
 /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams$ sbatch seqstats.new.SG.slurm /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams/cov10_sim5.all.gr.bam
 
-
+ 
 
