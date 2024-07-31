@@ -73,3 +73,10 @@ cat > vg_gir5.sh <<EOF
 /usr/local/sw/vg/bin/vg giraffe -Z /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome.giraffe.gbz -m /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome.min -d /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.pangenome.dist -f /mnt/NEOGENE1/projects/refbias_2020/mapping/gargamel/diffcov2/fastq/cov10_sim5.all.fastq.gz -o BAM > /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams/cov10_sim5.all.gr.bam
 EOF
 
+##seqstat
+change the genome to SBG.Graph.B37.V7.dev2.chr1.fa in seqstats.new.SG.slurm
+
+/mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams$ sbatch seqstats.new.SG.slurm /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams/cov10_sim5.all.gr.bam
+
+
+
