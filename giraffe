@@ -75,8 +75,15 @@ EOF
 
 ##seqstat
 change the genome to SBG.Graph.B37.V7.dev2.chr1.fa in seqstats.new.SG.slurm
-
 /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams$ sbatch seqstats.new.SG.slurm /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams/cov10_sim5.all.gr.bam
 
- 
+#mapping 
+
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/map_fastq-map-filter.sh cov10_sim1.all.gr.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa /mnt/NEOGENE1/projects/refbias_2020/giraffe/ 2 /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams
+.
+.
+.
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/map_fastq-map-filter.sh cov10_sim5.all.gr.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/SBG.Graph.B37.V7.dev2.chr1.fa /mnt/NEOGENE1/projects/refbias_2020/giraffe/ 2 /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams
+
+
 
