@@ -120,5 +120,3 @@ sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/map_fastq-map-filter.s
 ## haplotypecaller Q30
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30/haplotypecaller_Q30.sh cov10_sim1.all.gr.sorted.SBG.Graph.B37.V7.dev2.chr1.cons.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30
 
-
-
