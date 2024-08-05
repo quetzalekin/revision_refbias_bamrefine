@@ -133,3 +133,10 @@ sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30/haplotypecaller_Q30.
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30/haplotypecaller_Q30.sh cov10_sim4.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30/haplotypecaller_Q30.sh cov10_sim5.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30
 
+## haplotypecaller Q60
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60/haplotypecaller_Q60.sh cov10_sim1.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60/haplotypecaller_Q60.sh cov10_sim2.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60/haplotypecaller_Q60.sh cov10_sim3.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60/haplotypecaller_Q60.sh cov10_sim4.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60/haplotypecaller_Q60.sh cov10_sim5.all.gr.sorted.chr1.cons.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60
+
