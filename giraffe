@@ -117,13 +117,86 @@ sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/map_fastq-map-filter.s
 
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/map_fastq-map-filter.sh cov10_sim5.all.gr.sorted.bam /mnt/NEOGENE1/projects/refbias_2020/mapping/gargamel/masked/nov22/chr1.fa /mnt/NEOGENE1/projects/refbias_2020/giraffe 10 /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams
 
+## trim 10 bases
+
+cat > trim.sh <<EOF
+#!/bin/bash -l
+#SBATCH -p chimp
+#SBATCH -n 1
+#SBATCH -t 5-00:00:00
+#SBATCH -J trim
+#SBATCH -o slurm-%j-%N-%u.out
+#SBATCH -e slurm-%J-%N-%u.err
+
+bamfile=$1 
+indir=$2
+outdir=$3 
+filebase=$(basename $bamfile .bam)
+
+bamUtil=/usr/local/sw/bamUtil-1.0.15/bam
+$bamUtil trimBam ${indir}/${bamfile} ${outdir}/${filebase}.trimBAM.bam 10
+EOF
+
+sbatch trim.sh cov10_sim1.all.gr.sorted.chr1.cons.90perc.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed
+sbatch trim.sh cov10_sim2.all.gr.sorted.chr1.cons.90perc.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed
+sbatch trim.sh cov10_sim3.all.gr.sorted.chr1.cons.90perc.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed
+sbatch trim.sh cov10_sim4.all.gr.sorted.chr1.cons.90perc.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed
+sbatch trim.sh cov10_sim5.all.gr.sorted.chr1.cons.90perc.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed
+
 ##add read group
 
-sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/cov10_sim1.all.gr.sorted.chr1.cons.bam
-sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/cov10_sim2.all.gr.sorted.chr1.cons.bam
-sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/cov10_sim3.all.gr.sorted.chr1.cons.bam
-sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/cov10_sim4.all.gr.sorted.chr1.cons.bam
-sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/cov10_sim5.all.gr.sorted.chr1.cons.bam
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/cov10_sim1.all.gr.sorted.chr1.cons.90perc.trimBAM.bam
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/cov10_sim2.all.gr.sorted.chr1.cons.90perc.trimBAM.bam
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/cov10_sim3.all.gr.sorted.chr1.cons.90perc.trimBAM.bam
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/cov10_sim4.all.gr.sorted.chr1.cons.90perc.trimBAM.bam
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/cov10_sim5.all.gr.sorted.chr1.cons.90perc.trimBAM.bam
+
+
+## haplotypecaller Q30 with trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed/haplotypecaller_Q30.sh cov10_sim1.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed/haplotypecaller_Q30.sh cov10_sim2.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed/haplotypecaller_Q30.sh cov10_sim3.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed/haplotypecaller_Q30.sh cov10_sim4.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed/haplotypecaller_Q30.sh cov10_sim5.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed
+
+
+## haplotypecaller Q60 with trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed/haplotypecaller_Q60.sh cov10_sim1.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed/haplotypecaller_Q60.sh cov10_sim2.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed/haplotypecaller_Q60.sh cov10_sim3.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed/haplotypecaller_Q60.sh cov10_sim4.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed/haplotypecaller_Q60.sh cov10_sim5.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed
+
+##concordance giraffe Q30
+
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim1.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q30.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim2.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q30.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim3.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q30.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim4.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q30.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim5.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q30.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+##concordance giraffe Q60
+
+cov10_sim1.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q60.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim2.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q60.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim3.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q60.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim4.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q60.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim5.all.gr.sorted.chr1.cons.90perc.trimBAM.rg.Q60.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q60_trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+## concordance with trimmed 
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim1.all.hs37d5_chr1.cons.90perc.rg.trimBAM.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/genotyping/gatk/simulation/str/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim2.all.hs37d5_chr1.cons.90perc.rg.trimBAM.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/genotyping/gatk/simulation/str/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim3.all.hs37d5_chr1.cons.90perc.rg.trimBAM.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/genotyping/gatk/simulation/str/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim4.all.hs37d5_chr1.cons.90perc.rg.trimBAM.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/genotyping/gatk/simulation/str/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim5.all.hs37d5_chr1.cons.90perc.rg.trimBAM.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/genotyping/gatk/simulation/str/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
+
+
+Message @dilek
+
 
 ## trim 10bases, regenotype, compare with  Dilek's, check concordance in vcftools 
 ## haplotypecaller Q30
