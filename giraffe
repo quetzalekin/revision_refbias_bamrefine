@@ -195,8 +195,6 @@ sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh co
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh cov10_sim5.all.hs37d5_chr1.cons.90perc.rg.trimBAM.vcf.gz /mnt/NEOGENE1/projects/refbias_2020/genotyping/gatk/simulation/str/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance
 
 
-Message @dilek
-
 
 ## trim 10bases, regenotype, compare with  Dilek's, check concordance in vcftools 
 ## haplotypecaller Q30
