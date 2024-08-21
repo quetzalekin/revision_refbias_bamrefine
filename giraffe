@@ -198,6 +198,7 @@ sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/concordance/concordance.sh co
 ### filter with hs37d5
 
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/mapped/map_fastq-map-filter.sh cov10_sim1.all.gr.sorted.bam /mnt/NEOGENE3/share/ref/genomes/hsa/hs37d5.fa /mnt/NEOGENE1/projects/refbias_2020/giraffe 10 /mnt/NEOGENE1/projects/refbias_2020/giraffe/cov10_bams
+
 sbatch trim.sh cov10_sim1.all.gr.sorted.hs37d5.cons.90perc.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/add_rg.sh /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed/cov10_sim1.all.gr.sorted.hs37d5.cons.90perc.trimBAM.bam
 sbatch /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed/haplotypecaller_Q30.sh cov10_sim1.all.gr.sorted.hs37d5.cons.90perc.trimBAM.rg.bam /mnt/NEOGENE1/projects/refbias_2020/giraffe/trimmed /mnt/NEOGENE1/projects/refbias_2020/giraffe/gatk/Q30_trimmed
